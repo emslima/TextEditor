@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <title>Simple Text Editor</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana;
+            background-color: #f5f5f5;
+            margin: auto;
+        }     
+        div.home { 
+            background-color: #fff;
+            display: block;
+            width: 650px;
+            height: auto;
+            padding: 40px;
+            margin: auto;
+            margin-top: 80px;
+            border-radius: 15px;
+            box-shadow: 5px 5px 16px 1px #7474740a;
+        }
+        div.botoes {
+            background-color: #f7f7f7;
+            width: 100%;
+            margin: auto;
+            text-align: center;
+            border-radius: 12px;
+            border: solid #3636360a;
+            border-width: 1px;
+        }
+        div.areatexto {
+            background-color: #f7f7f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana;
+            width: 100%;
+            height: auto;
+            min-height: 400px;
+            box-sizing: border-box;
+            padding: 20px;
+            margin-top: 40px;
+            outline: none;
+            border: solid #3636360a;
+            border-width: 1px;
+            border-radius: 12px; 
+        }
+        button {
+            background-color: #f7f7f7;
+            border: none;
+            padding: 9px;
+            border-radius: 10px;
+            transition-duration: 0.3s;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ececec;
+        }
+        button:active{
+            background-color: #7fffd4;
+        }
+        footer {
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+            font-size: 14px;
+            color: #5f5f5f;
+            display: block;
+            margin-top: 33px;
+        }
+        ::selection{
+            background-color: #7fffd4;
+        }
+        #mudarcor {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 29px;
+            height: 32px;
+            appearance: none;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+        }
+        #mudarcor::-webkit-color-swatch{
+            border-radius: 3px;
+            border: none;
+        }
+        #mudarcor::-moz-color-swatch{
+            border-radius: 3px;
+            border: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <section>
+        <div class="home">
+            <div class="botoes">
+                <button class="BNT" data-element="bold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bold" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M7 5h6a3.5 3.5 0 0 1 0 7h-6z"></path>
+                        <path d="M13 12h1a3.5 3.5 0 0 1 0 7h-7v-7"></path>
+                     </svg>
+                </button>
+                <button class="BNT" data-element="italic">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-italic" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="11" y1="5" x2="17" y2="5"></line>
+                        <line x1="7" y1="19" x2="13" y2="19"></line>
+                        <line x1="14" y1="5" x2="10" y2="19"></line>
+                     </svg>
+                </button>
+                <button class="BNT" data-element="underline">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-underline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M7 5v5a5 5 0 0 0 10 0v-5"></path>
+                        <path d="M5 19h14"></path>
+                     </svg>
+                </button>
+                <button id="marcador" onclick="marcar()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bookmark" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.7" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M9 4h6a2 2 0 0 1 2 2v14l-5 -3l-5 3v-14a2 2 0 0 1 2 -2"></path>
+                     </svg>
+                </button>
+                <button id="changecolor" onclick="colorc()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-paint" width="23" height="24" viewBox="0 0 24 24" stroke-width="1.7" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <rect x="5" y="3" width="14" height="6" rx="2"></rect>
+                        <path d="M19 6h1a2 2 0 0 1 2 2a5 5 0 0 1 -5 5l-5 0v2"></path>
+                        <rect x="10" y="15" width="4" height="6" rx="1"></rect>
+                     </svg>
+                </button>
+                <button class="BNT" data-element="removeFormat">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eraser" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.7" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M19 19h-11l-4 -4a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9 9"></path>
+                        <line x1="18" y1="12.3" x2="11.7" y2="6"></line>
+                     </svg>
+                </button>
+                <button class="BNT" data-element="insertUnorderedList">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="9" y1="6" x2="20" y2="6"></line>
+                        <line x1="9" y1="12" x2="20" y2="12"></line>
+                        <line x1="9" y1="18" x2="20" y2="18"></line>
+                        <line x1="5" y1="6" x2="5" y2="6.01"></line>
+                        <line x1="5" y1="12" x2="5" y2="12.01"></line>
+                        <line x1="5" y1="18" x2="5" y2="18.01"></line>
+                     </svg>
+                </button>
+                <button class="BNT" data-element="justifyLeft">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="4" y1="12" x2="14" y2="12"></line>
+                        <line x1="4" y1="18" x2="18" y2="18"></line>
+                        
+                     </svg>
+                </button>
+                <button class="BNT" data-element="justifyCenter">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-center" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                        <line x1="6" y1="18" x2="18" y2="18"></line>
+                     </svg>
+                </button>
+                <button class="BNT" data-element="justifyRight">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="10" y1="12" x2="20" y2="12"></line>
+                        <line x1="6" y1="18" x2="20" y2="18"></line>
+                     </svg>
+                </button>
+                <button ID="increase">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-typography" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.7" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="4" y1="20" x2="7" y2="20"></line>
+                        <line x1="14" y1="20" x2="18" y2="20"></line>
+                        <line x1="6.9" y1="15" x2="13.8" y2="15"></line>
+                        <line x1="10.2" y1="6.3" x2="16" y2="20"></line>
+                        <polyline points="5 20 11 4"></polyline>
+                        <line x1="17" y1="12" x2="25" y2="12"></line>
+                        <line x1="20" y1="9" x2="20" y2="15"></line>
+
+                     </svg>
+                </button>
+                <button ID="decrease">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-typography" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.7" stroke="#5c5c5c" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="4" y1="20" x2="7" y2="20"></line>
+                        <line x1="14" y1="20" x2="18" y2="20"></line>
+                        <line x1="6.9" y1="15" x2="13.8" y2="15"></line>
+                        <line x1="10.2" y1="6.3" x2="16" y2="20"></line>
+                        <polyline points="5 20 11 4"></polyline>
+                        <line x1="18" y1="12" x2="25" y2="12"></line>
+                     </svg>
+                </button>
+                <input type="color" id="mudarcor" value="#10e0c8">
+            </div>
+            <div class="areatexto" id="areatexto"       contenteditable="true"> </div> <!--Div Editable-->
+        </div>
+    </section>
+    <footer>
+        <a href="https://github.com/emslima" target="_blank">&copy; Emerson Lima</a>
+    </footer>
+    <script>
+
+        const elements = document.querySelectorAll('.BNT');
+        elements.forEach(element => {
+            element.addEventListener('click', () => {
+                let command = element.dataset['element'];
+                document.execCommand(command, false, null);
+         })
+        })
+     function marcar() {
+        document.execCommand("hiliteColor", false, "#7fffd4");
+        }
+    function colorc() {
+        var cor = document.getElementById('mudarcor').value;
+        
+        // font size jquery 
+
+        document.execCommand("foreColor", false, cor);
+        }
+        $(document).ready(function(){
+  
+        var fontSize = 3;
+  
+        $('#decrease').click(function(){
+            if (fontSize > 1)
+            fontSize--;
+            document.execCommand("fontSize", false, fontSize);
+        });
+  
+        $('#increase').click(function(){
+            if (fontSize < 7)
+            fontSize++;
+            document.execCommand("fontSize", false, fontSize);
+        });
+        })
+    </script>
+</body>
+</html>
+
