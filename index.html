@@ -208,43 +208,49 @@
         </div>
     </section>
     <footer>
-        <a href="https://github.com/emslima" target="_blank">&copy; Emerson Lima</a>
+        <a href="https://github.com/emslima" target="_blank">&copy; Dimítri Lima</a>
     </footer>
     <script>
+        // Recuperar o conteúdo salvo, se houver
+        document.getElementById('areatexto').innerHTML = localStorage.getItem('textoSalvo');
 
+        // Adicionar um listener para salvar o conteúdo da div editável quando o usuário digitar algo
+        document.getElementById('areatexto').addEventListener('input', function() {
+            localStorage.setItem('textoSalvo', this.innerHTML);
+        });
+
+        // Adicionar listeners para os botões de formatação
         const elements = document.querySelectorAll('.BNT');
         elements.forEach(element => {
             element.addEventListener('click', () => {
                 let command = element.dataset['element'];
                 document.execCommand(command, false, null);
-         })
-        })
-     function marcar() {
-        document.execCommand("hiliteColor", false, "#7fffd4");
-        }
-    function colorc() {
-        var cor = document.getElementById('mudarcor').value;
-        
-        // font size jquery 
+            });
+        });
 
-        document.execCommand("foreColor", false, cor);
+        function marcar() {
+            document.execCommand("hiliteColor", false, "#7fffd4");
         }
+
+        function colorc() {
+            var cor = document.getElementById('mudarcor').value;
+            document.execCommand("foreColor", false, cor);
+        }
+
         $(document).ready(function(){
+            var fontSize = 3;
+            $('#decrease').click(function(){
+                if (fontSize > 1)
+                fontSize--;
+                document.execCommand("fontSize", false, fontSize);
+            });
   
-        var fontSize = 3;
-  
-        $('#decrease').click(function(){
-            if (fontSize > 1)
-            fontSize--;
-            document.execCommand("fontSize", false, fontSize);
+            $('#increase').click(function(){
+                if (fontSize < 7)
+                fontSize++;
+                document.execCommand("fontSize", false, fontSize);
+            });
         });
-  
-        $('#increase').click(function(){
-            if (fontSize < 7)
-            fontSize++;
-            document.execCommand("fontSize", false, fontSize);
-        });
-        })
     </script>
 </body>
 </html>
